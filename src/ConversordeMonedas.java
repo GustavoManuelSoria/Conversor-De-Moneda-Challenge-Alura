@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import conversorDeMonedas.controller.MenuPrincipal;
 
 import java.io.IOException;
 import java.net.URI;
@@ -23,49 +24,20 @@ public class ConversordeMonedas {
         System.out.println("Tasas cargadas con éxito.");
 
         Scanner scanner = new Scanner(System.in);
-        int opcion = 0;
-
-        do {
-
-            try {
-
-            } catch (InputMismatchException e) {
-
-            } catch (Exception e) {
-
-            }
-
-        } while (opcion != 7);
-
-        System.out.println("\n¡Gracias por usar el conversor!");
+        MenuPrincipal controlador = new MenuPrincipal(tasas, scanner);
+        controlador.ejecutarMenu();
         scanner.close();
     }
 
-   private static void mostrarMenu() {
-       String separador = "***********************************************";
 
-       System.out.println("\n" + separador);
-       System.out.println("Sea bienvenido/a al Conversor de Moneda =>]");
-       System.out.println("\n1) Dólar =>> Peso argentino");
-       System.out.println("2) Peso argentino =>> Dólar");
-       System.out.println("3) Dólar =>> Real brasileño");
-       System.out.println("4) Real brasileño =>> Dólar");
-       System.out.println("5) Dólar =>> Peso colombiano");
-       System.out.println("6) Peso colombiano =>> Dólar");
-       System.out.println("7) Salir");
-       System.out.print("\nElija una opción válida:\n");
-       System.out.println(separador);
-       System.out.print("=> ");
-   }
-
-   private static boolean obtenerTasas() {
+    private static boolean obtenerTasas() {
        String direccion = "https://v6.exchangerate-api.com/v6/a66fc4343353d228e7b0056f/latest/USD";
 
-       try {
+        try {
            HttpClient client = HttpClient.newHttpClient();
            HttpRequest request = HttpRequest.newBuilder()
-                   .uri(URI.create(direccion))
-                   .build();
+                    .uri(URI.create(direccion))
+                    .build();
 
            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
            String jsonResponse = response.body();
